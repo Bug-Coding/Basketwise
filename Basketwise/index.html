@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f6f7f2" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Basketwise" />
+  <title>Basketwise — Grocery savings, made simple</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="grocery.css" />
+  <link rel="stylesheet" href="simple-accessible.css" />
+  <link rel="stylesheet" href="comment-review.css" />
+  <link rel="stylesheet" href="feedback-round2.css" />
+  <link rel="stylesheet" href="glass-ui.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Basketwise home"><span class="brand-mark">b.</span><span>basketwise</span></a>
+      <div class="side-label">MENU</div>
+      <nav aria-label="Main navigation">
+        <a class="nav-link active" href="#shop"><span class="nav-icon">⌕</span> Find groceries</a>
+        <button class="nav-link bucket-nav" id="openBucketNav"><span class="nav-icon">▣</span> My bucket <span id="sideBucketCount" class="side-count">0</span></button>
+        <a class="nav-link" href="#savings"><span class="nav-icon">↗</span> Savings log</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="tip-icon">✳</div><strong>Your list, your way.</strong><p>Choose items and quantities, then keep them together in your bucket.</p><a href="#shop">Browse groceries <span>→</span></a></div>
+      <div class="profile"><div class="avatar">B</div><div><strong>Basketwise</strong><small>Your grocery planner</small></div><span class="dots">•••</span></div>
+    </aside>
+
+    <main class="main-content" id="overview">
+      <header class="topbar"><div class="breadcrumbs"><b>Basketwise</b></div><div class="top-actions"><button id="themeToggle" class="theme-toggle" aria-label="Switch to dark mode"><span class="theme-icon">☾</span><span class="theme-text">Dark mode</span></button></div></header>
+      <section class="shop-hero" id="shop"><div class="hero-copy"><h1>Find groceries</h1></div><label class="search-box"><input id="itemSearch" type="search" placeholder="Search groceries" autocomplete="off" aria-label="Search by English, Hindi or local name"></label><div class="search-results" id="searchResults" aria-live="polite"></div></section>
+      <section class="popular-section"><div class="section-title"><div><p class="eyebrow">QUICK PICKS</p><h2 id="catalogTitle">Common groceries</h2></div><span class="section-note">Tap add to save an item</span></div><div class="product-grid" id="productGrid"></div><p class="no-results" id="noResults" hidden>No matching grocery found.</p></section>
+      <section class="savings-log-section" id="savings"><div class="savings-log-heading"><div><p class="eyebrow">KEEP TRACK</p><h2>Your savings log</h2><p>Record savings you’ve personally found. No store prices are shown here.</p></div><button class="primary-button" id="addDealTop"><span>＋</span> Log a saving</button></div><div class="saving-log-empty" id="savingLogEmpty">No savings logged yet.</div><div class="saving-log-entries" id="savingLogEntries"></div></section>
+      <footer class="page-footer"><div class="footer-copy"><strong>Navonmesh Labs</strong><span>Made for mindful grocery runs.</span></div><a class="contact-button" href="mailto:nikhil.yadav.me19@gmail.com">Contact</a></footer>
+    </main>
+  </div>
+
+  <dialog id="itemDialog" class="modal"><form method="dialog" id="itemForm"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">GROCERY LIST</p><h2>Add an item</h2><p class="modal-description">Plan what you need for your next shop.</p><label>Item name<input name="name" required maxlength="50" placeholder="e.g. Oat milk" /></label><div class="form-row"><label>Quantity<input name="quantity" type="number" min="1" value="1" required /></label><label>Estimated price<input name="price" type="number" min="0" step="0.01" placeholder="0.00" required /></label></div><div class="modal-actions"><button type="button" class="cancel-button" data-close>Cancel</button><button class="primary-button" type="submit">Add to list</button></div></form></dialog>
+  <dialog id="savingDialog" class="modal"><form method="dialog" id="savingForm"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">SAVINGS LOG</p><h2>Log a saving</h2><p class="modal-description">Compare the regular price with what you actually paid.</p><label>Item name<input name="name" required maxlength="50" placeholder="e.g. Seasonal apples" /></label><div class="form-row"><label>Regular price<input name="regular" type="number" min="0.01" step="0.01" required placeholder="0.00" /></label><label>Price paid<input name="paid" type="number" min="0" step="0.01" required placeholder="0.00" /></label></div><p class="saving-hint">Your saving is calculated as regular price minus price paid.</p><div class="modal-actions"><button type="button" class="cancel-button" data-close>Cancel</button><button class="primary-button" type="submit">Save entry</button></div></form></dialog>
+  <dialog id="budgetDialog" class="modal"><form method="dialog" id="budgetForm"><button class="modal-close" aria-label="Close">×</button><p class="eyebrow">MONTHLY PLAN</p><h2>Set your budget</h2><p class="modal-description">Choose a monthly grocery budget that works for you.</p><label>Budget amount<input name="budget" type="number" min="0" step="0.01" required /></label><div class="modal-actions"><button type="button" class="cancel-button" data-close>Cancel</button><button class="primary-button" type="submit">Save budget</button></div></form></dialog>
+  <button class="fixed-bucket" id="openBucket" aria-label="Open grocery bucket" title="Bucket"><span class="bucket-glyph" aria-hidden="true">▣</span><span class="bucket-label">Bucket</span><b id="bucketCount">0</b></button>
+  <dialog id="bucketDialog" class="bucket-dialog"><div class="bucket-head"><div><p class="eyebrow">YOUR SELECTED ITEMS</p><h2>My bucket <span id="bucketDialogCount">(0)</span></h2></div><button class="modal-close" id="closeBucket" aria-label="Close">×</button></div><p class="bucket-subtitle">Adjust quantities from the grocery cards as you go.</p><div class="bucket-items" id="bucketItems"></div><div class="bucket-empty" id="bucketEmpty"><span>▣</span><b>Your bucket is empty</b><p>Choose a grocery to add it here.</p><button class="primary-button" id="browseGroceries">Browse groceries</button></div><div class="bucket-foot" id="bucketFoot"><span>Prices and shop availability aren’t provided.</span><button id="clearBucket">Clear bucket</button></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="catalog.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
